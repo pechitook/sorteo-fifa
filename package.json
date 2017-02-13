@@ -6,6 +6,8 @@
   "scripts": {
     "start": "babel-node index.js",
     "couples": "babel-node couples.js",
+    "lint": "standard; exit 0;",
+    "lint:fix": "standard --fix",
     "teams": "babel-node teams.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
