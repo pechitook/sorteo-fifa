@@ -6,9 +6,9 @@ const couples = require('./couples.json')
 const shuffledTeams = shuffle(teams)
 
 let roundCount = 1
-let logging = Promise.resolve();
+let logging = Promise.resolve()
 zip(couples, shuffledTeams).map(([couple, team]) => {
-  logging = logging.then( () => { return logTeams(couple, team, roundCount) });
+  logging = logging.then( () => { return logTeams(couple, team, roundCount) })
   roundCount++
 })
 
