@@ -7,7 +7,10 @@ const shuffledTeams = shuffle(teams)
 const shuffledPlayers = shuffle(players)
 
 let roundCount = 1
+let logging = Promise.resolve()
 zip(shuffledTeams, shuffledPlayers).map(([team, player]) => {
-  log(team, player, roundCount)
+  logging = logging.then( () => { return log(team, player, roundCount) })
   roundCount++
 })
+
+logging.then(() => console.log("\nPowered by Chester"))

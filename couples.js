@@ -10,7 +10,10 @@ const result = zip(bag1, bag2)
 fs.writeFile('./couples.json', JSON.stringify(result))
 
 let roundCount = 1
+let logging = Promise.resolve()
 result.map(([p1, p2]) => {
-  logPlayers(p1, p2, roundCount)
+  logging = logging.then( () => logPlayers(p1, p2, roundCount))
   roundCount++
 })
+
+logging.then(() => console.log("\nPowered by Chester"))
