@@ -59,6 +59,26 @@ export const logPlayers = (p1, p2, roundCount) => {
   return tasks.run()
 }
 
+export const logGarcaSorteo = (p1, roundCount) => {
+  const tasks = new Listr([
+    {
+        title: '🙋‍♂️  ',
+        task: (ctx, task) => {
+            return new Observable(observer => {
+                observer.next('Sacando el siguiente jugador del cajón...')
+
+                setTimeout(() => {
+                  task.title = `🙋‍♂️ ${logPlayer(p1)}`
+                  setTimeout(() => observer.complete(), WAIT_TIME)
+                }, INTERVAL * roundCount)
+            })
+        }
+    }
+  ])
+
+  return tasks.run()
+}
+
 export const logTeams = (couple, team, roundCount) => {
   const tasks = new Listr([
     {
