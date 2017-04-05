@@ -6,6 +6,7 @@
   "scripts": {
     "start": "babel-node index.js",
     "couples": "babel-node couples.js",
+    "norte-vs-sur": "babel-node norte-vs-sur.js",
     "lint": "standard; exit 0;",
     "lint:fix": "standard --fix",
     "teams": "babel-node teams.js",
