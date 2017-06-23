@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import Listr from 'Listr'
-const INTERVAL = 5 * 100
-const WAIT_TIME = 2 * 1000 // must be lower than interval
+const INTERVAL = 1.5 * 1000
+const WAIT_TIME = 1 * 1000 // must be lower than interval
 
 export const zip = (a, b) => a.map((el, i) => [el, b[i]])
 
@@ -82,6 +82,24 @@ export const logTeams = (couple, team, roundCount) => {
   ])
 
   return tasks.run()
-  // setTimeout(() => logCouple(couple), INTERVAL * roundCount)
-  // setTimeout(() => logTeam(`${team} \n`), (INTERVAL * roundCount) + WAIT_TIME)
+}
+
+export const logColdchesterbowl = (player, roundCount) => {
+  const tasks = new Listr([
+    {
+        title: '🙋‍♂️ ',
+        task: (ctx, task) => {
+            return new Observable(observer => {
+                observer.next('Girando el bolillero...')
+
+                setTimeout(() => {
+                  task.title = `🙋‍♂️  ${logPlayer(player)} `
+                  observer.complete()
+                }, INTERVAL * roundCount + WAIT_TIME)
+            })
+        }
+    }
+  ])
+
+  return tasks.run()
 }

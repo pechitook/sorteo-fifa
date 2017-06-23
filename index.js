@@ -1,16 +1,13 @@
 import shuffle from 'array-shuffle'
-import teams from './src/teams'
 import players from './src/players'
-import { zip, log } from './src/lib'
+import { logColdchesterbowl } from './src/lib'
 
-const shuffledTeams = shuffle(teams)
 const shuffledPlayers = shuffle(players)
 
 let roundCount = 1
 let logging = Promise.resolve()
-zip(shuffledTeams, shuffledPlayers).map(([team, player]) => {
-  logging = logging.then( () => { return log(team, player, roundCount) })
-  roundCount++
+shuffledPlayers.map((player) => {
+  logging = logging.then(() => { return logColdchesterbowl(player, roundCount) })
 })
 
-logging.then(() => console.log("\nPowered by Chester"))
+logging.then(() => console.log('\nPowered by Chester'))
