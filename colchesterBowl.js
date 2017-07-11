@@ -1,5 +1,12 @@
-import { colchesterBowlRaffle } from './src/raffler'
-import logger from './src/logger'
+import shuffle from 'array-shuffle'
+import raffle from './src/raffle'
+import players from './src/players'
+
+const INTERVALS = {
+  SAVED: 3000,
+  LAST: 10000,
+  DOOMED: 0
+}
 
 const logFuncs = {
   SAVED: (player) => `El próximo que se salva es 🙋‍♂️  ${player}`,
@@ -7,7 +14,18 @@ const logFuncs = {
   DOOMED: (player) => `JUEGA EL COLCHESTER BOWL 🙋‍♂️  ${player}`
 }
 
-const dataLog = ({player = '...', type = 'SAVED'}) =>
-  logFuncs[type](player)
+const status = (position) => {
+  const treshold = players.length - 3
+  if (position < treshold) return 'SAVED'
+  if (position === treshold) return 'LAST'
+  if (position > treshold) return 'DOOMED'
+}
 
-colchesterBowlRaffle().subscribe(logger({dataLog}))
+raffle({
+  shuffler: () => shuffle(players),
+  announcer: (player, position) => [
+    {data: { player }, interval: INTERVALS[status(position)]}
+  ],
+  logger: ({player = '...'}, position) => logFuncs[status(position)](player)
+})
+

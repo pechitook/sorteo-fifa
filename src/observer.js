@@ -4,22 +4,22 @@ let task
 let data = {}
 
 const handlers = ({
-    dataLog = () => data.toString(),
+    logger = () => data.toString(),
     startMsg = 'Comienza Sorteo!',
     endMsg = 'Powered By Chester'}
   ) => ({
     START_RAFFLE: () => {
       console.log(startMsg)
     },
-    START: (initialData = {}) => {
-      data = initialData
-      task = ora(dataLog(data)).start()
+    START: (position) => {
+      data = {}
+      task = ora(logger(data, position)).start()
     },
-    SET: (newData) => {
+    SET: (position, newData) => {
       data = {...data, ...newData}
-      task.text = dataLog(data)
+      task.text = logger(data, position)
     },
-    END: () => {
+    END: (position) => {
       task.succeed()
     },
     END_RAFFLE: () => {
@@ -29,5 +29,5 @@ const handlers = ({
 
 export default (options) => {
   const configuredHandlers = handlers(options)
-  return (item) => configuredHandlers[item.type](item.data)
+  return (item) => configuredHandlers[item.type](item.position, item.data)
 }
