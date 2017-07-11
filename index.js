@@ -1,16 +1,7 @@
-import shuffle from 'array-shuffle'
-import teams from './src/teams'
-import players from './src/players'
-import { zip, log } from './src/lib'
+import { raffleTeams } from './src/raffler'
+import logger from './src/logger'
 
-const shuffledTeams = shuffle(teams)
-const shuffledPlayers = shuffle(players)
+const dataLog = ({team = 'Buscando Equipo...', player = 'Buscando DT...'}) =>
+  `⚽️  ${team} 🙋‍♂️  ${player}`
 
-let roundCount = 1
-let logging = Promise.resolve()
-zip(shuffledTeams, shuffledPlayers).map(([team, player]) => {
-  logging = logging.then( () => { return log(team, player, roundCount) })
-  roundCount++
-})
-
-logging.then(() => console.log("\nPowered by Chester"))
+raffleTeams().subscribe(logger({dataLog}))
