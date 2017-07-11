@@ -4,7 +4,7 @@ let task
 let data = {}
 
 const handlers = ({
-    logger = () => data.toString(),
+    logger = (data) => data.toString(),
     startMsg = 'Comienza el Sorteo!',
     endMsg = 'Powered By ✌️'}
   ) => ({
