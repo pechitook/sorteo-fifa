@@ -5,8 +5,8 @@ let data = {}
 
 const handlers = ({
     logger = () => data.toString(),
-    startMsg = 'Comienza Sorteo!',
-    endMsg = 'Powered By Chester'}
+    startMsg = 'Comienza el Sorteo!',
+    endMsg = 'Powered By ✌️'}
   ) => ({
     START_RAFFLE: () => {
       console.log(startMsg)
