@@ -1,6 +1,6 @@
 import shuffle from 'array-shuffle'
 import raffle from './src/raffle'
-import players from './src/players'
+import players from './data/players'
 
 const INTERVALS = {
   SAVED: 3000,

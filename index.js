@@ -1,8 +1,8 @@
 import shuffle from 'array-shuffle'
 import { zip } from './src/lib'
 import raffle from './src/raffle'
-import players from './src/players'
-import teams from './src/teams'
+import players from './data/players'
+import teams from './data/teams'
 
 const PLAYER_INTERVAL = 3000
 const TEAM_INTERVAL = 2000
