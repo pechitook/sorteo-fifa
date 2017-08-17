@@ -13,6 +13,9 @@ Sólo vas a tener que modificar la lista en `players.js` y `teams.js` y listo.
 Con `npm run colchesterBowl` vas a correr el sorteo en modo Colchester bowl, donde
 se van eliminando participantes uno a uno hasta que quedan dos.
 
+Con `npm run copaDeby` vas a correr el sorteo en modo Copa Deby, donde
+se arman parejas de jugadores y se les asigna un equipo.
+
 # Cómo crear un nuevo tipo de sorteo
 
 En `src/raffle` se exporta una funcion `raffle` que crea un nuevo tipo de sorteo.

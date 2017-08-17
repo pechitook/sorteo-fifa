@@ -1,4 +1,16 @@
+import shuffle from 'array-shuffle'
+
 export const zip = (a, b) => a.map((el, i) => [el, b[i]])
+
+export const split = arr => ([
+  arr.slice(0, arr.length / 2),
+  arr.slice(arr.length / 2)
+])
+
+export const shufflePairs = arr => {
+  const arrSets = split(shuffle(arr))
+  return zip(arrSets[0], arrSets[1])
+}
 
 const concat = (x, y) => x.concat(y)
 export const flatMap = (f, xs) => xs.map(f).reduce(concat, [])

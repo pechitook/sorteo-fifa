@@ -6,6 +6,7 @@
   "scripts": {
     "start": "babel-node index.js",
     "colchesterBowl": "babel-node colchesterBowl.js",
+    "copaDeby": "babel-node copaDeby.js",
     "lint": "standard; exit 0;",
     "lint:fix": "standard --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
