@@ -1,6 +1,6 @@
 import shuffle from 'array-shuffle'
-import raffle from './src/raffle'
-import players from './data/players'
+import raffle from '../core/raffle'
+import players from '../../data/players'
 
 const INTERVALS = {
   SAVED: 3000,
@@ -21,7 +21,7 @@ const status = (position) => {
   if (position > treshold) return 'DOOMED'
 }
 
-raffle({
+const run = () => raffle({
   shuffler: () => shuffle(players),
   announcer: (player, position) => [
     {data: { player }, interval: INTERVALS[status(position)]}
@@ -29,3 +29,7 @@ raffle({
   logger: ({player = '...'}, position) => logFuncs[status(position)](player)
 })
 
+export default {
+  name: 'Colchester Bowl',
+  run
+}
