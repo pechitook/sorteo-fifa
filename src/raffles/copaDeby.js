@@ -1,13 +1,13 @@
 import shuffle from 'array-shuffle'
-import { zip, shufflePairs } from './src/lib'
-import raffle from './src/raffle'
-import players from './data/players'
-import teams from './data/teams'
+import { zip, shufflePairs } from '../core/lib'
+import raffle from '../core/raffle'
+import players from '../../data/players'
+import teams from '../../data/teams'
 
 const PLAYER_INTERVAL = 3000
 const TEAM_INTERVAL = 2000
 
-raffle({
+const run = () => raffle({
   shuffler: () => zip(
     shufflePairs(players),
     shuffle(teams)
@@ -20,3 +20,8 @@ raffle({
   logger: ({team = 'Buscando Equipo...', player1 = '...', player2 = '...'}) =>
   ` 🙋‍♂️ ${player1} juega con 🙋‍♂️ ${player2} => ${team}`
 })
+
+export default {
+  name: 'Copa Deby',
+  run
+}
