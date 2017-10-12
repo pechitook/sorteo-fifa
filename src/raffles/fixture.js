@@ -1,21 +1,28 @@
 import shuffle from 'array-shuffle'
 import raffle from '../core/raffle'
 import players from '../../data/players'
-import { range, flatMap } from '../core/lib'
-
-const shuffled = shuffle(players)
-const roundCount = players.length % 2 === 0 ? players.length - 1 : players.length
-const matchesPerRound = Math.floor(players.length / 2)
+import { split, tail, zip, range, cycle, flatMap } from '../core/lib'
 
 const fixtureShuffle = () => {
-  const generateRound = (round) => [
-    { type: 'ROUND', value: round },
-    ...range(matchesPerRound).map(match => ({
-      type: 'GAME',
-      value: generateMatch(players.length, round, match).map(i => shuffled[i])
-    }))
-  ]
-  return flatMap(generateRound, range(roundCount))
+  const generateRound = teams => round => {
+    const [home, away] = split([
+      teams[0],
+      ...cycle(tail(teams), round * teams.length / 2)
+    ])
+    return [
+      { type: 'ROUND', value: round },
+      ...zip(home, away.reverse()).map((players, index) => ({
+        type: 'GAME',
+        value: index === 0 && round % 2 !== 0 ? players.reverse() : players
+      }))
+    ]
+  }
+
+  const shuffled = shuffle(players)
+  if (shuffled.length % 2 !== 0) shuffled.splice(0, 0, 'LIBRE')
+  const numRounds = shuffled.length - 1
+
+  return flatMap(generateRound(shuffled), range(numRounds))
 }
 
 const INTERVALS = {
@@ -27,7 +34,11 @@ const logFuncs = {
   EMPTY: () => `...`,
   ROUND: (number = '...') => `Fecha ${number}`,
   GAME: ([player1 = '...', player2 = '...']) =>
-    `🙋‍♂️  ${player1} VS 🙋‍♂️  ${player2}`
+    player1 === 'LIBRE'
+      ? `🙋‍‍♂️  ${player2} LIBRE`
+      : player2 === 'LIBRE'
+        ? `🙋‍‍♂️  ${player1} LIBRE`
+        : `🙋‍♂️  ${player1} VS 🙋‍♂️  ${player2}`
 }
 
 const run = () =>
@@ -36,31 +47,6 @@ const run = () =>
     announcer: data => [{ data, interval: INTERVALS[data.type] }],
     logger: ({ type = 'EMPTY', value = {} }) => logFuncs[type](value)
   })
-
-function generateMatch (teamCount, round, match) {
-  var home = teamCount + round - match
-  var visit = teamCount + round + match
-
-  if (teamCount % 2 === 0) {
-    if (round < match - 1) {
-      visit--
-    } else if (round * 2 >= teamCount && round + match >= teamCount) {
-      home++
-    } else if (match - round === 1 || match + round === teamCount - 1) {
-      home = round
-      visit = teamCount - 1
-    }
-  }
-  if (round % 2 === 0) {
-    const aux = home
-    home = visit
-    visit = aux
-  }
-  home = home % teamCount
-  visit = visit % teamCount
-
-  return [home, visit]
-}
 
 export default {
   name: 'Fixture',
